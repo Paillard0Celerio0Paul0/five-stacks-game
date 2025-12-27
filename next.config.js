@@ -5,6 +5,16 @@ const nextConfig = {
       bodySizeLimit: '2mb',
     },
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.discordapp.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 }
 
 module.exports = nextConfig

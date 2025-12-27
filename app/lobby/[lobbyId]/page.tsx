@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import LobbyPlayerList from "@/components/lobby/LobbyPlayerList"
@@ -44,19 +44,7 @@ export default function LobbyPage({ params }: { params: { lobbyId: string } }) {
   const [lobby, setLobby] = useState<Lobby | null>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    if (!session) {
-      router.push("/api/auth/signin")
-      return
-    }
-
-    fetchLobby()
-    const interval = setInterval(fetchLobby, 3000) // Rafraîchir toutes les 3 secondes
-
-    return () => clearInterval(interval)
-  }, [session, params.lobbyId])
-
-  const fetchLobby = async () => {
+  const fetchLobby = useCallback(async () => {
     try {
       const response = await fetch(`/api/lobbies/${params.lobbyId}`)
       if (response.ok) {
@@ -70,7 +58,19 @@ export default function LobbyPage({ params }: { params: { lobbyId: string } }) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [params.lobbyId, router])
+
+  useEffect(() => {
+    if (!session) {
+      router.push("/api/auth/signin")
+      return
+    }
+
+    fetchLobby()
+    const interval = setInterval(fetchLobby, 3000) // Rafraîchir toutes les 3 secondes
+
+    return () => clearInterval(interval)
+  }, [session, fetchLobby, router])
 
   const currentPlayer = lobby?.players.find(
     (p) => p.user.user.id === session?.user?.id

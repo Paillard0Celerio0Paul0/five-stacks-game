@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function DashboardPage() {
   const { data: session, status } = useSession()
@@ -86,9 +87,11 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-bold mb-2">Dashboard</h1>
         <div className="flex items-center gap-4">
           {session.user?.image && (
-            <img
+            <Image
               src={session.user.image}
               alt={session.user.name || "Avatar"}
+              width={48}
+              height={48}
               className="w-12 h-12 rounded-full"
             />
           )}

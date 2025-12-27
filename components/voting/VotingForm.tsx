@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 
 interface Player {
   id: string
@@ -75,16 +76,18 @@ export default function VotingForm({
     <div className="space-y-6">
       <h2 className="text-2xl font-bold mb-4">Votez pour les rôles</h2>
       <p className="text-gray-600 mb-6">
-        Pour chaque joueur, sélectionnez le rôle que vous pensez qu'il a eu.
+        Pour chaque joueur, sélectionnez le rôle que vous pensez qu&apos;il a eu.
       </p>
 
       {otherPlayers.map((player) => (
         <div key={player.id} className="border rounded-lg p-4">
           <div className="flex items-center gap-3 mb-4">
             {player.image && (
-              <img
+              <Image
                 src={player.image}
                 alt={player.name || "Avatar"}
+                width={48}
+                height={48}
                 className="w-12 h-12 rounded-full"
               />
             )}
