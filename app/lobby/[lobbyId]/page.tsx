@@ -73,7 +73,7 @@ export default function LobbyPage({ params }: { params: { lobbyId: string } }) {
   }, [session, fetchLobby, router])
 
   const currentPlayer = lobby?.players.find(
-    (p) => p.user.user.id === session?.user?.id
+    (p) => p.user.id === session?.user?.id
   )
   const isAdmin = currentPlayer?.isAdmin || false
   const myRole = lobby?.roleAssignments?.find(
@@ -125,10 +125,10 @@ export default function LobbyPage({ params }: { params: { lobbyId: string } }) {
         <div className="border rounded-lg p-6">
           <LobbyPlayerList
             players={lobby.players.map((p) => ({
-              id: p.user.user.id,
-              name: p.user.user.name,
-              username: p.user.user.username,
-              image: p.user.user.image,
+              id: p.user.id,
+              name: p.user.name,
+              username: p.user.username,
+              image: p.user.image,
               isAdmin: p.isAdmin,
             }))}
             currentUserId={session?.user?.id}
@@ -188,10 +188,10 @@ export default function LobbyPage({ params }: { params: { lobbyId: string } }) {
               {lobby.roleAssignments && (
                 <VotingForm
                   players={lobby.players.map((p) => ({
-                    id: p.user.user.id,
-                    name: p.user.user.name,
-                    username: p.user.user.username,
-                    image: p.user.user.image,
+                    id: p.user.id,
+                    name: p.user.name,
+                    username: p.user.username,
+                    image: p.user.image,
                   }))}
                   roles={Array.from(
                     new Set(
