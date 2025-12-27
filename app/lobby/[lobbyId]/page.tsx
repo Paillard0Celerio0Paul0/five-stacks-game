@@ -25,6 +25,7 @@ interface Lobby {
   roleAssignments?: Array<{
     id: string
     userId: string
+    adminValidated: boolean | null
     role: {
       id: string
       name: string
@@ -212,7 +213,18 @@ export default function LobbyPage({ params }: { params: { lobbyId: string } }) {
                   <h3 className="font-semibold mb-4">Validation admin</h3>
                   <AdminValidationPanel
                     lobbyId={lobby.id}
-                    roleAssignments={lobby.roleAssignments || []}
+                    roleAssignments={
+                      lobby.roleAssignments?.map((ra) => ({
+                        id: ra.id,
+                        userId: ra.userId,
+                        adminValidated: ra.adminValidated,
+                        role: { name: ra.role.name },
+                        user: {
+                          name: ra.user.name,
+                          username: ra.user.username,
+                        },
+                      })) || []
+                    }
                     onValidation={fetchLobby}
                   />
                 </div>
